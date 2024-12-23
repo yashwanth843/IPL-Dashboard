@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import {PieChart, Pie, Legend, Cell, ResponsiveContainer} from 'recharts'
 import Loader from 'react-loader-spinner'
 import LatestMatch from '../LatestMatch'
 import MatchCard from '../MatchCard'
@@ -41,8 +42,63 @@ class TeamMatches extends Component {
         this.getFormattedData(eachMatch),
       ),
     }
+    console.log(formattedData)
     this.setState({teamMatchesData: formattedData, isLoading: false})
   }
+
+  onClickBack = () => {
+    const {history} = this.props
+    history.replace('/')
+  }
+
+  renderStatics = () => {
+    const {teamMatchesData} = this.state
+    const {recentMatches} = teamMatchesData
+    let won = 0
+    let lost = 0
+    let draw = 0
+
+    recentMatches.forEach(match => {
+      if (match.matchStatus === 'Won') {
+        won += 1
+      } else if (match.matchStatus === 'Lost') {
+        lost += 1
+      } else if (match.matchStatus === 'Draw') {
+        draw += 1
+      }
+    })
+
+    console.log('Won:', won, 'Lost:', lost, 'Draw:', draw)
+    this.renderPieGraph(won, lost, draw)
+  }
+
+  renderPieGraph = (win, loose, drew) => (
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie
+          cx="50%"
+          cy="60%"
+          data={(win, loose, drew)}
+          startAngle={360}
+          endAngle={0}
+          innerRadius="30%"
+          outerRadius="60%"
+          dataKey="count"
+        >
+          <Cell name="Won" fill="green" />
+          <Cell name="Lost" fill="red" />
+          <Cell name="Other" fill="blue" />
+        </Pie>
+        <Legend
+          iconType="circle"
+          layout="horizontal"
+          verticalAlign="bottom"
+          align="center"
+          wrapperStyle={{fontSize: 12, fontFamily: 'Roboto'}}
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  )
 
   renderRecentMatchesList = () => {
     const {teamMatchesData} = this.state
@@ -63,9 +119,13 @@ class TeamMatches extends Component {
 
     return (
       <div className="groupContainer">
+        <button type="button" className="backButton" onClick={this.onClickBack}>
+          Back
+        </button>
         <img src={teamBannerUrl} alt="team banner" className="teamImage" />
         <LatestMatch latestMatchData={latestMatch} />
         {this.renderRecentMatchesList()}
+        {this.renderStatics()}
       </div>
     )
   }

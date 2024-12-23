@@ -12,6 +12,17 @@
   align-items: center;
 }
 
+.backButton {
+  align-self: flex-start;
+  margin: 15px;
+  background-color: transparent;
+  color: #ffffff;
+  font-family: 'Bree Serif';
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 .teamImage {
   width: 50%;
   height: 50%;
@@ -19,7 +30,7 @@
   border-radius: 10px;
 }
 
-.teamContainer{
+.teamContainer {
   display: grid;
-  grid-template-rows: repeat(4,1fr);
+  grid-template-rows: repeat(4, 1fr);
 }
