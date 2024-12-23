@@ -1,0 +1,25 @@
+.TeamMatch-container {
+  background-color: #d91c1f;
+  min-height: 100vh;
+}
+
+.groupContainer {
+  background-color: #5755a7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.teamImage {
+  width: 50%;
+  height: 50%;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.teamContainer{
+  display: grid;
+  grid-template-rows: repeat(4,1fr);
+}

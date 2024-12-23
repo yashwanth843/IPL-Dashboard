@@ -1,0 +1,22 @@
+.match-item {
+  list-style: none;
+  background-color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  padding: 15px;
+  color: #ffffff;
+  font-family: 'Bree Serif';
+}
+
+.competing-Team-logo {
+  width: 80px;
+  height: 80px;
+}
+
+.changeColor {
+  color: #e31a1a;
+}

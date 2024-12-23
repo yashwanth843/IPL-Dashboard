@@ -1,0 +1,30 @@
+.latest-match-container {
+  background-color: #1e293b;
+  margin-top: 20px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.latest-match-heading {
+  color: #ffffff;
+  font-family: 'Bree Serif';
+  font-size: 18px;
+}
+
+.latest-match-details-1 {
+  color: #ffffff;
+  font-family: 'Bree Serif';
+  font-size: 14px;
+}
+
+.latest-match-team-logo {
+  width: 200px;
+  height: 150px;
+}
+
+.latest-match-details-2{
+  color: #ffffff;
+  font-family: 'Bree Serif';
+  font-size: 14px;
+}
