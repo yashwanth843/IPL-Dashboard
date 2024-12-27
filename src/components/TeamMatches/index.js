@@ -8,7 +8,7 @@ import './index.css'
 const teamMatchesApiUrl = 'https://apis.ccbp.in/ipl/'
 
 class TeamMatches extends Component {
-  state = {isLoading: true, teamMatchesData: {}}
+  state = {isLoading: true, teamMatchesData: {}, won: '', lost: '', draw: ''}
 
   componentDidMount() {
     this.getTeamMatches()
@@ -43,7 +43,10 @@ class TeamMatches extends Component {
       ),
     }
     console.log(formattedData)
-    this.setState({teamMatchesData: formattedData, isLoading: false})
+    this.setState(
+      {teamMatchesData: formattedData, isLoading: false},
+      this.renderStatics,
+    )
   }
 
   onClickBack = () => {
@@ -69,36 +72,44 @@ class TeamMatches extends Component {
     })
 
     console.log('Won:', won, 'Lost:', lost, 'Draw:', draw)
-    this.renderPieGraph(won, lost, draw)
+
+    this.setState({won, lost, draw})
   }
 
-  renderPieGraph = (win, loose, drew) => (
-    <ResponsiveContainer width="100%" height={300}>
-      <PieChart>
-        <Pie
-          cx="50%"
-          cy="60%"
-          data={(win, loose, drew)}
-          startAngle={360}
-          endAngle={0}
-          innerRadius="30%"
-          outerRadius="60%"
-          dataKey="count"
-        >
-          <Cell name="Won" fill="green" />
-          <Cell name="Lost" fill="red" />
-          <Cell name="Other" fill="blue" />
-        </Pie>
-        <Legend
-          iconType="circle"
-          layout="horizontal"
-          verticalAlign="bottom"
-          align="center"
-          wrapperStyle={{fontSize: 12, fontFamily: 'Roboto'}}
-        />
-      </PieChart>
-    </ResponsiveContainer>
-  )
+  renderPieGraph = (won, lost, draw) => {
+    const info = [
+      {count: won, name: 'Won'},
+      {count: lost, name: 'Lost'},
+      {count: draw, name: 'Draw'},
+    ]
+    return (
+      <ResponsiveContainer width="100%" height={300}>
+        <PieChart>
+          <Pie
+            cx="50%"
+            cy="60%"
+            data={info}
+            startAngle={360}
+            endAngle={0}
+            innerRadius="30%"
+            outerRadius="70%"
+            dataKey="count"
+          >
+            <Cell name="Won" fill="green" />
+            <Cell name="Lost" fill="red" />
+            <Cell name="Draw" fill="blue" />
+          </Pie>
+          <Legend
+            iconType="circle"
+            layout="horizontal"
+            verticalAlign="bottom"
+            align="center"
+            wrapperStyle={{fontSize: 12, fontFamily: 'Roboto'}}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    )
+  }
 
   renderRecentMatchesList = () => {
     const {teamMatchesData} = this.state
@@ -114,8 +125,9 @@ class TeamMatches extends Component {
   }
 
   renderTeamMatches = () => {
-    const {teamMatchesData} = this.state
+    const {teamMatchesData, won, lost, draw} = this.state
     const {teamBannerUrl, latestMatch} = teamMatchesData
+    console.log(won)
 
     return (
       <div className="groupContainer">
@@ -125,7 +137,7 @@ class TeamMatches extends Component {
         <img src={teamBannerUrl} alt="team banner" className="teamImage" />
         <LatestMatch latestMatchData={latestMatch} />
         {this.renderRecentMatchesList()}
-        {this.renderStatics()}
+        {this.renderPieGraph(won, lost, draw)}
       </div>
     )
   }
